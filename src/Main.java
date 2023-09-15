@@ -1,26 +1,16 @@
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 public class Main{
+    static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        String correctGuessedLetters = "";
-        String wrongGuessedLetters = "";
-        String wordToGuess = "fault";
-        do {
-            System.out.println("Vill du gissa på ett ord med 4/6/8 bokstäver?");
-            try{
-                int lettersOfWord = sc.nextInt();
-                sc.nextLine();
-                wordToGuess = generateWord(lettersOfWord);
-            }catch (InputMismatchException e){
-                sc.nextLine();
-                wordToGuess = "fault";
-            }
 
-//test3
-        }while(wordToGuess.equals("fault"));
+        String correctGuessedLetters = "";
+        HashMap<Character, Boolean> correctGuessedLettersMap = new HashMap<>();
+        String wrongGuessedLetters = "";
+        String wordToGuess = getWordToGuess();
 //        String wordToGuess = generateWord(4);
         int guesses = 7;
         int guessesFromStart = guesses;
@@ -41,8 +31,6 @@ public class Main{
                 guess = sc.nextLine();
             }
             //System.out.println(numberOfCorrectLetters +"   " + wordToGuess.length());
-
-
             if (wordToGuess.contains(guess)){
                 correctGuessedLetters += guess;
             }else{
@@ -84,10 +72,10 @@ public class Main{
     }
 
     static String generateWord(int lengthOfWord){
-        String [] wordWtih4Letters = {"kaka", "lata", "reta", "leta"};
+        String [] wordWith4Letters = {"kaka", "lata", "reta", "leta"};
 //        String [] wordWtih5Letters = {"smaka", "bråka", "leta", "" };
-        String [] wordWtih6Letters = {"kastar", "bråkar", "kaktus", "flaska" };
-        String [] wordWtih8Letters = {"ostmacka", "flugfisk", "förtvätt", "hantverk", "motverka"};
+        String [] wordWith6Letters = {"kastar", "bråkar", "kaktus", "flaska" };
+        String [] wordWith8Letters = {"ostmacka", "flugfisk", "förtvätt", "hantverk", "motverka"};
 
 
         String [] wordArray = {"ostmacka", "plåtslagare", "receptionist", "flaska", "känguru", "flugfiske"};
@@ -95,14 +83,14 @@ public class Main{
         int indexOfWord;
         switch ( lengthOfWord){
             case 4:
-                indexOfWord =  rand.nextInt(wordWtih4Letters.length);
-                return wordWtih4Letters[indexOfWord];
+                indexOfWord =  rand.nextInt(wordWith4Letters.length);
+                return wordWith4Letters[indexOfWord];
             case 6:
-                indexOfWord =  rand.nextInt(wordWtih6Letters.length);
-                return wordWtih6Letters[indexOfWord];
+                indexOfWord =  rand.nextInt(wordWith6Letters.length);
+                return wordWith6Letters[indexOfWord];
             case 8:
-                indexOfWord =  rand.nextInt(wordWtih8Letters.length);
-                return wordWtih8Letters[indexOfWord];
+                indexOfWord =  rand.nextInt(wordWith8Letters.length);
+                return wordWith8Letters[indexOfWord];
         }
         return "fault";
 //        return wordArray[indexOfWord];
@@ -178,4 +166,27 @@ public class Main{
 
     }
 
+
+    static String getWordToGuess(){
+
+        String wordToGuess = "fault";
+        do {
+            System.out.println("Vill du gissa på ett ord med 4/6/8 bokstäver?");
+            try{
+                int lettersOfWord = sc.nextInt();
+                sc.nextLine();
+                wordToGuess = generateWord(lettersOfWord);
+            }catch (InputMismatchException e){
+                sc.nextLine();
+                wordToGuess = "fault";
+            }
+
+
+        }while(wordToGuess.equals("fault"));
+        return wordToGuess;
+    }
+
+    
+
 }
+
