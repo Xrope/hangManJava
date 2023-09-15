@@ -20,7 +20,7 @@ public class Main {
 
         do {
             String guess = getUserGuess();
-//            System.out.println(guess);
+
 
             if (wordToGuess.contains(guess)) {
 
