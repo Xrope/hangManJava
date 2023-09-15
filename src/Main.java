@@ -19,7 +19,7 @@ public class Main{
                 wordToGuess = "fault";
             }
 
-
+//test
         }while(wordToGuess.equals("fault"));
 //        String wordToGuess = generateWord(4);
         int guesses = 7;
