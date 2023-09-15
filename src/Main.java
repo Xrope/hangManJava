@@ -8,9 +8,11 @@ public class Main{
 
 
         String correctGuessedLetters = "";
-        HashMap<Character, Boolean> correctGuessedLettersMap = new HashMap<>();
+        HashMap<Character, Boolean> correctGuessedWordLettersMap = new HashMap<>();
+
         String wrongGuessedLetters = "";
         String wordToGuess = getWordToGuess();
+        System.out.println(wordToGuess);
 //        String wordToGuess = generateWord(4);
         int guesses = 7;
         int guessesFromStart = guesses;
@@ -18,26 +20,21 @@ public class Main{
 
         System.out.println("Du har " + guesses + " chanser att gissa fel.");
 
-        drawGameState(wordToGuess, correctGuessedLetters, 0);
+        drawGameStateWithMap(wordToGuess, correctGuessedWordLettersMap, 0);
 
         do
         {
-
-            System.out.println("Gissa på en bokstav:");
-            String guess = sc.nextLine();
-            while (guess.length() != 1){
-                System.out.println("Du får bara skriva ett tecken!");
-                System.out.println("Gissa på en bokstav:");
-                guess = sc.nextLine();
-            }
+            String guess = getUserGuess();
+            System.out.println(guess);
             //System.out.println(numberOfCorrectLetters +"   " + wordToGuess.length());
             if (wordToGuess.contains(guess)){
-                correctGuessedLetters += guess;
+//                correctGuessedLetters += guess;
+                correctGuessedWordLettersMap.put(guess.charAt(0), true);
             }else{
-                wrongGuessedLetters += guess ;
+                wrongGuessedLetters += guess;
                 guesses -= 1;
             }
-            numberOfCorrectLetters = drawGameState(wordToGuess, correctGuessedLetters, (guessesFromStart - guesses));
+            drawGameStateWithMap(wordToGuess, correctGuessedWordLettersMap, (guessesFromStart - guesses));
             System.out.println("Du har " + (guesses == 0 ? "ingen": guesses) +  (guesses <= 1 ? " gång" : " gånger") +" kvar att gissa fel.");
             if (!wrongGuessedLetters.isEmpty()){
                 System.out.println("Tecken som inte finns med: " + wrongGuessedLetters);
@@ -45,30 +42,46 @@ public class Main{
             }
             System.out.println();
             //System.out.println(numberOfCorrectLetters);
-        } while ( numberOfCorrectLetters != wordToGuess.length() && guesses != 0);
+        } while ( correctGuessedWordLettersMap.size() != wordToGuess.length() && guesses != 0);
 
         if (numberOfCorrectLetters == wordToGuess.length()){
             System.out.println("Wow du gjorde det ordet var " + wordToGuess.toUpperCase() +
-                    " och hade kvar " + (guessesFromStart - guesses) + " felgissningar.");
+                    " och du hade kvar " + (guessesFromStart - guesses) + " felgissningar.");
         }else {
             System.out.println("Tyvärr så fick du inte fram rätt ord. Ordet var " + wordToGuess.toUpperCase());
         }
 
     }
-    static int drawGameState(String wordToGuess, String correctGuessedLetters, int imageToDraw) {
-        int numberOfCorrectLetters = 0;
+//    static int drawGameState(String wordToGuess, String correctGuessedLetters, int imageToDraw) {
+//        int numberOfCorrectLetters = 0;
+//        drawImage(imageToDraw);
+//        for (char c : wordToGuess.toCharArray()) {
+//
+//            if (correctGuessedLetters.indexOf(c) != -1 ) {
+//                System.out.print(" " + c + " ");
+//                numberOfCorrectLetters += 1;
+//            } else System.out.print(" _ ");
+//
+//        }
+//        System.out.println();
+//        //System.out.println("Rätt gissade " + correctGuessedLetters);
+//        return numberOfCorrectLetters;
+//    }
+
+    static void drawGameStateWithMap(String wordToGuess, HashMap<Character, Boolean> correctGuessedLettersMap, int imageToDraw) {
+
         drawImage(imageToDraw);
         for (char c : wordToGuess.toCharArray()) {
 
-            if (correctGuessedLetters.indexOf(c) != -1 ) {
+            if (correctGuessedLettersMap.containsKey(c)) {
                 System.out.print(" " + c + " ");
-                numberOfCorrectLetters += 1;
+
             } else System.out.print(" _ ");
 
         }
         System.out.println();
         //System.out.println("Rätt gissade " + correctGuessedLetters);
-        return numberOfCorrectLetters;
+
     }
 
     static String generateWord(int lengthOfWord){
@@ -84,13 +97,13 @@ public class Main{
         switch ( lengthOfWord){
             case 4:
                 indexOfWord =  rand.nextInt(wordWith4Letters.length);
-                return wordWith4Letters[indexOfWord];
+                return wordWith4Letters[indexOfWord].toUpperCase();
             case 6:
                 indexOfWord =  rand.nextInt(wordWith6Letters.length);
-                return wordWith6Letters[indexOfWord];
+                return wordWith6Letters[indexOfWord].toUpperCase();
             case 8:
                 indexOfWord =  rand.nextInt(wordWith8Letters.length);
-                return wordWith8Letters[indexOfWord];
+                return wordWith8Letters[indexOfWord].toUpperCase();
         }
         return "fault";
 //        return wordArray[indexOfWord];
@@ -186,7 +199,22 @@ public class Main{
         return wordToGuess;
     }
 
-    
+    static String getUserGuess(){
+        System.out.println("Gissa på en bokstav:");
+        String guess = sc.nextLine();
+        while (guess.length() != 1){
+            System.out.println("Du får bara skriva ett tecken!");
+            System.out.println("Gissa på en bokstav:");
+            guess = sc.nextLine();
+        }
+        return guess.toUpperCase();
+    }
+
+    static void fillMap(HashMap<Character, Boolean> map, String word){
+        for (char c:word.toCharArray()) {
+            System.out.println();
+        }
+    }
 
 }
 
